@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const { query } = require('./config/db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
