@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const urlRoutes = require('./shortner/shortener.routes');
+const urlRoutes = require('./shortener/shortener.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
