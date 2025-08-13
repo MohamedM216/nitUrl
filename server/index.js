@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const { query } = require('./config/db');
+const urlRoutes = require('./shortner/shortener.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +34,14 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+app.use('/', urlRoutes);
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
 
 app.get('/health', (req, res) => {
   res.json({ 
