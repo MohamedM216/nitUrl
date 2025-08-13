@@ -6,6 +6,10 @@ const pool = new Pool({
   database: process.env.DB_NAME || 'myapp',
   password: process.env.DB_PASSWORD || 'yourpassword',
   port: process.env.DB_PORT || 5432,
+  connectionString: process.env.DATABASE_URL,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 // Test connection
