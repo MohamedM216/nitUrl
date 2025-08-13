@@ -16,17 +16,13 @@ app.use(helmet());
 app.use(compression());
 app.use(cors({
   origin: 'http://127.0.0.1:5500',
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
-
-// Handle preflight requests
-app.options('*', cors());
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('../public'));
-
 // app.use((req, res, next) => {
 //     if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
 //         res.redirect(`https://${req.header('host')}${req.url}`);
@@ -48,6 +44,5 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running in port: ${PORT}`);
     console.log(`Server is running on http://localhost:${PORT}`);
 })

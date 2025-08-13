@@ -46,9 +46,9 @@ async function createShortUrl(originalUrl) {
 async function getOriginalUrl(shortCode) {
     const result = await db.query(
         `SELECT uo.original_url
-         FROM url_original uo
-         JOIN url_short us ON uo.seq_id = us.seq_id
-         WHERE us.short_code = $1 LIMIT 1`,
+            FROM url_original uo
+            JOIN url_short us ON uo.seq_id = us.seq_id
+            WHERE us.short_code = $1 LIMIT 1`,
         [shortCode]
     );
     return result.rows[0]?.original_url;

@@ -15,7 +15,12 @@ async function shortenUrl(req, res) {
         }
 
         const shortCode = await urlService.createShortUrl(url);
-        res.status(200).json({ shortCode });
+        const shortUrl = `${req.protocol}://${req.get('host')}/${shortCode}`;
+        
+        return res.status(200).json({ 
+            shortCode,
+            shortUrl 
+        });
     } catch (error) {
         console.error('Shorten URL error:', error);
         res.status(500).json({ error: 'Internal server error' });
@@ -31,9 +36,10 @@ async function redirectUrl(req, res) {
             return res.status(404).json({ error: 'URL not found' });
         }
         
-        res.status(200).redirect(originalUrl);
+        return res.redirect(originalUrl);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Redirect error:', error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 }
 

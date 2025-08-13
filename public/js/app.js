@@ -26,10 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Validate URL format
             new URL(longUrl);
             
-            const response = await fetch('api/v1/shorten', {
-                method: 'OPTIONS',
+            const response = await fetch(`http://localhost:3000/api/v1/shorten`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    
                 },
                 body: JSON.stringify({ url: longUrl })
             });
@@ -37,20 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response) {
                 throw new Error('No response from server');
             }
-            // if (!response.ok) {
-            //     let errorData;
-            //     try {
-            //         errorData = await response.json();
-            //     } catch {
-            //         errorData = { error: await response.text() };
-            //     }
-            //     throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-            // }
+            if (!response.ok) {
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch {
+                    errorData = { error: await response.text() };
+                }
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
 
             const data = await response.json();
 
-            displayResult(`${window.location.origin}/${data.shortCode}`);
-            generateQRCode(`${window.location.origin}/${data.shortCode}`);
+            displayResult(`http://localhost:3000/api/v1/${data.shortCode}`);
         } catch (err) {
             console.error('Shortening error:', err);
             showError("Please enter a proper URL");
@@ -59,7 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayResult(shortUrl) {
         errorMessage.classList.add('hidden');
-        shortUrlElement.textContent = shortUrl;
+        // Create clickable link
+        shortUrlElement.innerHTML = '';
+        const link = document.createElement('a');
+        link.href = shortUrl;
+        link.textContent = shortUrl;
+        link.target = '_blank';
+        link.classList.add('short-url-link');
+        
+        shortUrlElement.appendChild(link);
         resultContainer.classList.remove('hidden');
         urlInput.value = '';
     }
@@ -81,22 +89,5 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => {
                 console.error('Failed to copy:', err);
             });
-    }
-
-    function generateQRCode(url) {
-        // Clear previous QR code
-        qrCodeContainer.innerHTML = '';
-        
-        // Using a simple QR code generation library (you'll need to include qrcode.js)
-        if (typeof QRCode !== 'undefined') {
-            new QRCode(qrCodeContainer, {
-                text: url,
-                width: 128,
-                height: 128,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }
     }
 });
