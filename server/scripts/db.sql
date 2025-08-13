@@ -3,7 +3,4 @@ CREATE TABLE urls (
     original_url TEXT NOT NULL,
     short_code VARCHAR(50) UNIQUE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP WITH TIME ZONE,
-    is_active BOOLEAN DEFAULT TRUE,
-    title VARCHAR(255)
 );
