@@ -26,24 +26,34 @@ document.addEventListener('DOMContentLoaded', () => {
             // Validate URL format
             new URL(longUrl);
             
-            const response = await fetch('/shorten', {
-                method: 'POST',
+            const response = await fetch('api/v1/shorten', {
+                method: 'OPTIONS',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ url: longUrl })
             });
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to shorten URL');
+            if (!response) {
+                throw new Error('No response from server');
             }
+            // if (!response.ok) {
+            //     let errorData;
+            //     try {
+            //         errorData = await response.json();
+            //     } catch {
+            //         errorData = { error: await response.text() };
+            //     }
+            //     throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            // }
+
+            const data = await response.json();
 
             displayResult(`${window.location.origin}/${data.shortCode}`);
             generateQRCode(`${window.location.origin}/${data.shortCode}`);
         } catch (err) {
-            showError(err.message);
+            console.error('Shortening error:', err);
+            showError("Please enter a proper URL");
         }
     }
 
