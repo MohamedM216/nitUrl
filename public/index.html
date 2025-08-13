@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>urlshortner</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-  
-  <script src="/js/app.js"></script>
+    <div class="container">
+        <header>
+            <h1>URL Shortener</h1>
+            <p>Make your long links short and sweet</p>
+        </header>
+
+        <main>
+            <div class="shortener-form">
+                <input type="url" id="url-input" placeholder="Paste your long URL here..." required>
+                <button id="shorten-btn">Shorten</button>
+            </div>
+
+            <div id="result-container" class="hidden">
+                <div class="result-box">
+                    <span id="short-url"></span>
+                    <button id="copy-btn">Copy</button>
+                </div>
+                <div id="qr-code-container"></div>
+            </div>
+
+            <div id="error-message" class="hidden"></div>
+        </main>
+
+        <footer>
+            <p>© 2025 URL Shortener | All links are publicly accessible</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 </html>

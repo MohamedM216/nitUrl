@@ -1,0 +1,133 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --background-color: #f9f9f9;
+    --text-color: #333;
+    --error-color: #e74c3c;
+    --success-color: #2ecc71;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.shortener-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.shortener-form input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.shortener-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+#result-container {
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.result-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#short-url {
+    flex: 1;
+    color: var(--primary-color);
+    word-break: break-all;
+}
+
+#qr-code-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#error-message {
+    color: var(--error-color);
+    padding: 1rem;
+    background-color: #fdecea;
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+    .shortener-form {
+        flex-direction: column;
+    }
+    
+    .result-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #copy-btn {
+        width: 100%;
+    }
+}
