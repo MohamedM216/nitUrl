@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const { process } = require('process');
+const process = require('process');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -14,28 +14,28 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(compression());
+app.use(cors({
+  origin: 'http://127.0.0.1:5500',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
+}));
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static('../public'));
 
-app.use((req, res, next) => {
-  if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
-    res.redirect(`https://${req.header('host')}${req.url}`);
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//     if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
+//         res.redirect(`https://${req.header('host')}${req.url}`);
+//     } else {
+//         next();
+//     }
+// });
 
-app.use('/', urlRoutes);
+app.use('/api/v1', urlRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
@@ -44,10 +44,7 @@ app.use((err, req, res, next) => {
 
 
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'success',
-    message: 'Hello from the backend!',
-  });
+    res.status(200).send('OK');
 });
 
 app.listen(PORT, () => {

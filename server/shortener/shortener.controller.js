@@ -8,9 +8,16 @@ async function shortenUrl(req, res) {
             return res.status(400).json({ error: 'URL is required' });
         }
 
+        try {
+            new URL(url);
+        } catch (e) {
+            return res.status(400).json({ error: 'Invalid URL format' });
+        }
+
         const shortCode = await urlService.createShortUrl(url);
         res.status(200).json({ shortCode });
     } catch (error) {
+        console.error('Shorten URL error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 }
